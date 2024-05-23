@@ -38,13 +38,25 @@ class Salesman : virtual public Employee {
         }
         return *this;
     }
-    void setSales(int sl) { sales = sl; }
-    int getSales() { return sales; }
-    void setSalesRate(double sr) { salesRate = sr; }
-    double getSalesRate() { return salesRate; }
+    // 完美转发
+    Salesman(Employee &&emP, int sal = 0, double salR = 0)
+        : Employee(std::forward<Employee>(emP)), sales(sal), salesRate(salR) {}
 
-    void pay()  { money = sales * salesRate; }
-    void showType()  { std::cout << "销售类员工" << std::endl; }
+
+    void setSales(int sl) {
+        sales = sl; }
+    int getSales() {
+        return sales; }
+    void setSalesRate(double sr) {
+        salesRate = sr; }
+    double getSalesRate() {
+        return salesRate; }
+
+        void writeFile() override{}
+    void pay() override {
+        money = sales * salesRate; }
+    void showType() override{
+        std::cout << "销售类员工" << std::endl; }
     ~Salesman() {}
 };
 #endif

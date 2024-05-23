@@ -2,6 +2,7 @@
 #define MANAGERSALES_H_
 #include "manager.h"
 #include "salesman.h"
+#include <utility>
 
 class ManagerSales : public Manager, public Salesman {
   public:
@@ -31,9 +32,13 @@ class ManagerSales : public Manager, public Salesman {
         }
         return *this;
     }
-
-    void pay() { money = monthlyPay + salesRate * sales; }
-    void showType() { std::cout << "销售经理类员工" << std::endl; }
+    ManagerSales(Manager &&mana, Salesman &&salM)
+        : Manager(std::forward<Manager>(mana)),
+          Salesman(std::forward<Salesman>(salM)) {}
+          
+    void writeFile() override {}
+    void pay() override { money = monthlyPay + salesRate * sales; }
+    void showType() override { std::cout << "销售经理类员工" << std::endl; }
 };
 
 #endif

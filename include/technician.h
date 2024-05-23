@@ -1,6 +1,7 @@
 #ifndef TECHNICIAN_H_
 #define TECHNICIAN_H_
 #include "employee.h"
+#include "../include/infomation.h"
 
 class Technician : public Employee {
     int hour;          // 工作时长
@@ -38,12 +39,17 @@ class Technician : public Employee {
         }
         return *this;
     }
+    // 完美转发
+    Technician(Employee &&emP, int h = 0, double hourlyR = 0)
+        : Employee(std::forward<Employee>(emP)), hour(h), hourlyRate(hourlyR) {}
+
     void setHour(int h) { hour = h; }
     int getHour() { return hour; }
     void setHourlyRate(double H) { hourlyRate = H; }
     double getHourlyRate() { return hourlyRate; }
 
     // override
+    void writeFile() override{}
     void pay() override { money = hour * hourlyRate; }
     void showType() override {
         std::cout << "技术类员工" << std::endl;

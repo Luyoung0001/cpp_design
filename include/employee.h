@@ -70,12 +70,11 @@ class Employee {
                   << std::endl;
         info.printInfo();
     }
-    void writeFile() {
-        // 将信息写入某个文件
-    }
-    virtual void pay() = 0;
-    virtual void showType() = 0;
-    virtual ~Employee() = 0;
+    // 取消纯函数，可以构建基类对象
+    virtual void writeFile() {};
+    virtual void pay() {}
+    virtual void showType(){}
+    virtual ~Employee() {}
 };
 // 为了不违法 ODR，定义将会在包含本头文件的文件中定义静态变量
 // std::string Employee::CompanyName = "Default Company Name";

@@ -29,8 +29,8 @@ void Menu::select_menu(int &select) {
     std::cout << "5. 退出程序\n";
     std::cout << "**********\n";
     std::cout << "请选择 1-5:";
-    int sel = 0;
-    std::cin >> select;
+    int sel;
+    std::cin >> sel;
     select = sel;
     this->handle_menu(select);
 }

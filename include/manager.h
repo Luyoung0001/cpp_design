@@ -1,6 +1,7 @@
 #ifndef MANAGER_H_
 #define MANAGER_H_
 #include "employee.h"
+#include <iterator>
 
 class Manager : virtual public Employee {
   protected:
@@ -24,7 +25,7 @@ class Manager : virtual public Employee {
         return *this;
     }
     // 移动构造
-    Manager &operator=(Manager &&mana)noexcept {
+    Manager &operator=(Manager &&mana) noexcept {
         if (this != &mana) {
             Employee::operator=(std::move(mana));
             monthlyPay = mana.monthlyPay;
@@ -32,13 +33,17 @@ class Manager : virtual public Employee {
         }
         return *this;
     }
+    // 完美转发
+    Manager(Employee &&emP, double moP)
+        : Employee(std::forward<Employee>(emP)), monthlyPay(moP) {}
 
     void setMonPay(double moP) { monthlyPay = moP; }
     double getMonPay() { return monthlyPay; }
 
     // override
-    void pay() { money = monthlyPay; }
-    void showType() { std::cout << "经理类员工" << std::endl; }
+    void writeFile() override{}
+    void pay() override{ money = monthlyPay; }
+    void showType()override { std::cout << "经理类员工" << std::endl; }
     ~Manager() {}
 };
 #endif
