@@ -36,8 +36,8 @@ class Infomation {
         age = newAge;
         weight = newWeight;
     }
-    void printInfo() {
-        std::cout << "age: " << age << ", weight: " << weight << std::endl;
+    void printInfo() const {
+        std::cout << " age: " << age << ", weight: " << weight << std::endl;
     }
     ~Infomation() {}
 };

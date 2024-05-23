@@ -1,7 +1,12 @@
 #include "../include/info.h"
 #include "../include/employee.h"
-#include "../include/technician.h"
+#include "../include/manager.h"
+#include "../include/managerSales.h"
 #include "../include/salesman.h"
+#include "../include/technician.h"
+#include <chrono>
+#include <fstream>
+#include <iterator>
 std::string Employee::CompanyName = "Default Company Name";
 Employee makeEmployee() {
     int id, age, weight;
@@ -34,6 +39,9 @@ bool Info::addInfo() {
 
     // ManagerSales
 
+    int id, age, weight;
+    std::string name;
+
     switch (cate) {
     case 1:
         std::cout << "技术人员信息初始化......" << std::endl;
@@ -42,8 +50,8 @@ bool Info::addInfo() {
         std::cin >> hour;
         std::cout << "请输入技术人员的时薪(元):";
         std::cin >> hourlyRate;
-
         setTechnician(Technician(makeEmployee(), hour, hourlyRate));
+        num++;
         break;
     case 2:
         std::cout << "销售人员信息初始化......" << std::endl;
@@ -54,6 +62,7 @@ bool Info::addInfo() {
         std::cin >> salesRate;
 
         setSalesman(Salesman(makeEmployee(), sales, salesRate));
+        num++;
         break;
 
     case 3:
@@ -63,25 +72,78 @@ bool Info::addInfo() {
         std::cin >> monthlyPay;
 
         setManager(Manager(makeEmployee(), monthlyPay));
+        num++;
         break;
     case 4:
         std::cout << "销售经理信息初始化......" << std::endl;
-
         std::cout << "请输入销售经理本月固定工资(元):";
         std::cin >> monthlyPay;
         std::cout << "请输入销售经理下属部门本月销售总额(元):";
         std::cin >> sales;
         std::cout << "请输入销售经理的销售提成比例:";
         std::cin >> salesRate;
-
-        // 构建两个基类
-        // setTechnician();
+        std::cout << "请输入员工编号:";
+        std::cin >> id;
+        std::cout << "请输入员工名字:";
+        std::cin >> name;
+        std::cout << "员工年龄:";
+        std::cin >> age;
+        std::cout << "员工体重:";
+        std::cin >> weight;
+        setManagerSales(ManagerSales(id, name, weight, age, monthlyPay, sales, salesRate));
+        num++;
         break;
     default:
-        break;
+        std::cout << "您输入的编号不正确，请你重新输入:";
+        this->addInfo();
+    }
+    return true;
+}
+bool Info ::addNatrual() {
+    std::string comName;
+    std::cout << "请输入公司名称:";
+    std::cin >> comName;
+    Employee::setCompanyName(comName);
+    return true;
+}
+bool Info::readInfo() {
+    // 从本地文件读取信息
+    std::ifstream file("info.txt");
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file." << std::endl;
+        return false; // 如果文件打开失败，返回 false
+    }
+
+    std::string line;
+    while (getline(file, line)) {
+        std::cout << line << std::endl;
+    }
+
+    file.close();
+    return true; // 文件读取成功
+}
+void Info::showInfo() {
+    // 遍历 vector
+    for (auto emp : employees) {
+        emp->showInfo();
     }
 }
-bool Info ::addNatrual() {}
-bool Info::readInfo() {}
-void Info::showInfo() {}
-bool Info ::writeinfo() {}
+bool Info ::writeinfo() {
+    // vector 持久化到本地
+    std::ofstream file("info.txt", std::ios::app);
+    if (!file.is_open()) {
+        return false;
+    }
+    // 保存原始的cout缓冲区
+    std::streambuf *originalCoutBuffer = std::cout.rdbuf();
+
+    std::cout.rdbuf(file.rdbuf());
+
+    // 重定向到文件
+    for (auto emp : employees) {
+        emp->showInfo();
+    }
+    std::cout.rdbuf(originalCoutBuffer);
+    return true;
+}

@@ -8,7 +8,8 @@
 #include "vector"
 #include <utility>
 class Info {
-    std::vector<Employee> employees;
+    std::vector<std::shared_ptr<Employee>> employees;
+
     int num; // vector 中元素数量
     Technician technician;
     Salesman salesman;
@@ -17,22 +18,21 @@ class Info {
 
   public:
     // setter
-
     void setTechnician(Technician &&tech) {
-        technician = std::forward<Technician>(tech);
-        employees.emplace_back(std::move(technician));
+        tech.pay();
+        employees.push_back(std::make_shared<Technician>(std::move(tech)));
     }
     void setSalesman(Salesman &&sal) {
-        salesman = std::forward<Salesman>(sal);
-        employees.emplace_back(std::move(salesman));
+        sal.pay();
+        employees.push_back(std::make_shared<Salesman>(std::move(sal)));
     }
     void setManager(Manager &&mana) {
-        manager = std::forward<Manager>(mana);
-        employees.emplace_back(std::move(manager));
+        mana.pay();
+        employees.push_back(std::make_shared<Manager>(std::move(mana)));
     }
-    void setManaSal(ManagerSales &&manS) {
-        managerSales = std::forward<ManagerSales>(manS);
-        employees.emplace_back(std::move(managerSales));
+    void setManagerSales(ManagerSales &&manS) {
+        manS.pay();
+        employees.push_back(std::make_shared<ManagerSales>(std::move(manS)));
     }
 
     bool addNatrual();

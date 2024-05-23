@@ -1,7 +1,7 @@
 #ifndef TECHNICIAN_H_
 #define TECHNICIAN_H_
-#include "employee.h"
 #include "../include/infomation.h"
+#include "employee.h"
 
 class Technician : public Employee {
     int hour;          // 工作时长
@@ -49,11 +49,15 @@ class Technician : public Employee {
     double getHourlyRate() { return hourlyRate; }
 
     // override
-    void writeFile() override{}
+    void writeFile() override {}
     void pay() override { money = hour * hourlyRate; }
-    void showType() override {
-        std::cout << "技术类员工" << std::endl;
+    void showType() const override {
+        std::cout << "技术类员工";
         ;
+    }
+    void showInfo() const override {
+        showType();
+        Employee::showInfo();
     }
     ~Technician() {}
 };

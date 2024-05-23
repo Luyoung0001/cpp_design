@@ -14,10 +14,11 @@ void Menu::handle_menu(int &select) {
         info.readInfo();
         break;
     case 5:
-        exit(0); // 系统直接退出
+        select = 0;
+        break;
     default:
         std::cout << "您输入的编号不正确，请你重新输入:";
-        this->select_menu(select);
+        this->handle_menu(select);
     }
 }
 void Menu::select_menu(int &select) {

@@ -9,8 +9,8 @@ class Salesman : virtual public Employee {
 
   public:
     // 有参、默认构造
-    Salesman(int sal = 0, double salr = 0.0)
-        : Employee(), sales(sal), salesRate(salr) {}
+    Salesman(int sal = 0, double salr = 0.0) : sales(sal), salesRate(salr) {}
+
     // 复制构造
     Salesman(const Salesman &salm)
         : Employee(salm), sales(salm.sales), salesRate(salm.salesRate) {}
@@ -38,25 +38,26 @@ class Salesman : virtual public Employee {
         }
         return *this;
     }
-    // 完美转发
     Salesman(Employee &&emP, int sal = 0, double salR = 0)
-        : Employee(std::forward<Employee>(emP)), sales(sal), salesRate(salR) {}
+        : Employee(std::move(emP)), sales(sal), salesRate(salR) {}
 
+    // 复制构造
+    Salesman(const Employee &emP, int sal = 0, double salR = 0)
+        : Employee(emP), sales(sal), salesRate(salR) {}
 
-    void setSales(int sl) {
-        sales = sl; }
-    int getSales() {
-        return sales; }
-    void setSalesRate(double sr) {
-        salesRate = sr; }
-    double getSalesRate() {
-        return salesRate; }
+    void setSales(int sl) { sales = sl; }
+    int getSales() { return sales; }
+    void setSalesRate(double sr) { salesRate = sr; }
+    double getSalesRate() { return salesRate; }
 
-        void writeFile() override{}
-    void pay() override {
-        money = sales * salesRate; }
-    void showType() override{
-        std::cout << "销售类员工" << std::endl; }
+    void writeFile() override {}
+    void pay() override { money = sales * salesRate; }
+    void showType() const override { std::cout << "销售类员工"; }
+
+    void showInfo() const override {
+        showType();
+        Employee::showInfo();
+    }
     ~Salesman() {}
 };
 #endif

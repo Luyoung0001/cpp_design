@@ -9,7 +9,8 @@ class Manager : virtual public Employee {
 
   public:
     // 有参、默认
-    Manager(double moP = 0) : Employee(), monthlyPay(moP) {}
+    Manager(double moP = 0) : monthlyPay(moP) {}
+
     // 复制构造
     Manager(const Manager &mana)
         : Employee(mana), monthlyPay(mana.monthlyPay) {}
@@ -33,17 +34,24 @@ class Manager : virtual public Employee {
         }
         return *this;
     }
-    // 完美转发
+
     Manager(Employee &&emP, double moP)
-        : Employee(std::forward<Employee>(emP)), monthlyPay(moP) {}
+        : Employee(std::move(emP)), monthlyPay(moP) {}
+
+    // 复制构造
+    Manager(const Employee &emP, double moP) : Employee(emP), monthlyPay(moP) {}
 
     void setMonPay(double moP) { monthlyPay = moP; }
     double getMonPay() { return monthlyPay; }
 
     // override
-    void writeFile() override{}
-    void pay() override{ money = monthlyPay; }
-    void showType()override { std::cout << "经理类员工" << std::endl; }
+    void writeFile() override {}
+    void pay() override { money = monthlyPay; }
+    void showType() const override { std::cout << "经理类员工"; }
+    void showInfo() const override {
+        showType();
+        Employee::showInfo();
+    }
     ~Manager() {}
 };
 #endif

@@ -12,7 +12,7 @@ class Employee {
     Infomation info;
 
   protected:
-    double money;
+    double money; // 通过 pay 更新，不能通过构造函数更新，但是可以移动
 
   public:
     static void setCompanyName(const std::string &comName) {
@@ -22,18 +22,20 @@ class Employee {
 
     // 有参、默认构造
     Employee(int idd = 0, std::string namee = "null", int age = 0,
-             int weight = 0, double moneyy = 0.0)
-        : id(idd), name(namee), info(age, weight), money(moneyy) {}
+             int weight = 0)
+        : id(idd), name(namee), info(age, weight) {}
 
     // 复制构造
     Employee(const Employee &emp)
         : id(emp.id), name(emp.name), info(emp.info), money(emp.money) {}
     // 移动构造
     Employee(Employee &&emp) noexcept {
+
         id = emp.id;
         name = std::move(emp.name);
         info = std::move(emp.info);
         money = emp.money;
+
         emp.id = 0;
         emp.name = "null";
         emp.info.infoSet(0, 0);
@@ -64,16 +66,18 @@ class Employee {
         }
         return *this;
     }
-    // 显示员工信息
-    void showInfo() {
-        std::cout << "id: " << id << ", name: " << name << ", money: " << money
-                  << std::endl;
+
+    // 取消纯函数，可以构建基类对象
+    virtual void writeFile(){};
+    virtual void pay() {}
+    virtual void showType() const {}
+
+    virtual void showInfo() const {
+        std::cout << " Company name: " << Employee::CompanyName;
+        std::cout << " id: " << id << ", name: " << name
+                  << ", money: " << money;
         info.printInfo();
     }
-    // 取消纯函数，可以构建基类对象
-    virtual void writeFile() {};
-    virtual void pay() {}
-    virtual void showType(){}
     virtual ~Employee() {}
 };
 // 为了不违法 ODR，定义将会在包含本头文件的文件中定义静态变量
