@@ -19,19 +19,15 @@ class Info {
   public:
     // setter
     void setTechnician(Technician &&tech) {
-        tech.pay();
         employees.push_back(std::make_shared<Technician>(std::move(tech)));
     }
     void setSalesman(Salesman &&sal) {
-        sal.pay();
         employees.push_back(std::make_shared<Salesman>(std::move(sal)));
     }
     void setManager(Manager &&mana) {
-        mana.pay();
         employees.push_back(std::make_shared<Manager>(std::move(mana)));
     }
     void setManagerSales(ManagerSales &&manS) {
-        manS.pay();
         employees.push_back(std::make_shared<ManagerSales>(std::move(manS)));
     }
 

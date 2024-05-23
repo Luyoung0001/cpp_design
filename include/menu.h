@@ -5,7 +5,7 @@ class Menu {
     Info info;
 
   public:
-    Menu() { info.addInfo(); }
+    Menu() { info.addNatrual(); }
     void select_menu(int &select);
     void handle_menu(int &select);
     ~Menu() {}
