@@ -1,15 +1,13 @@
 #ifndef TECHNICIAN_H_
 #define TECHNICIAN_H_
-#include "../include/infomation.h"
+#include "infomation.h"
 #include "employee.h"
 
 class Technician : public Employee {
     int hour;          // 工作时长
     double hourlyRate; // 时薪
   public:
-    Technician(int h = 0, double r = 0) : Employee(), hour(h), hourlyRate(r) {
-        pay();
-    }
+    Technician(int h = 0, double r = 0) : Employee(), hour(h), hourlyRate(r) {}
     // 复制构造
     Technician(const Technician &tech)
         : Employee(tech), hour(tech.hour), hourlyRate(tech.hourlyRate) {}

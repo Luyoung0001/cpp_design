@@ -10,7 +10,6 @@ class Salesman : virtual public Employee {
   public:
     // 有参、默认构造
     Salesman(int sal = 0, double salr = 0.0) : sales(sal), salesRate(salr) {
-        pay();
     }
 
     // 复制构造

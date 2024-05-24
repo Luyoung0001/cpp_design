@@ -9,7 +9,7 @@ class Manager : virtual public Employee {
 
   public:
     // 有参、默认
-    Manager(double moP = 0) : monthlyPay(moP) {pay();}
+    Manager(double moP = 0) : monthlyPay(moP) {}
 
     // 复制构造
     Manager(const Manager &mana)

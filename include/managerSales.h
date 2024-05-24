@@ -13,7 +13,6 @@ class ManagerSales : public Manager, public Salesman {
                  double _salesRate = 0)
         : Employee(_id, _name, _weight, _age), // 显式初始化 Employee
           Manager(_monthlyPay), Salesman(_sales, _salesRate) {
-        pay();
     }
 
     // 复制构造
